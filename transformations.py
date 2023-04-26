@@ -31,7 +31,7 @@ class Transformations:
     def XYZ2BLH(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
-        
+
         data_in = self.file_reading(file_txt)
         data_out = []
         for i in data_in:
@@ -49,8 +49,18 @@ class Transformations:
             B = B * 180 / pi
             L = L * 180 / pi
             data_out.append([Point_number, B, L, H])
-        return (data_out)    
-    
+        today = datetime.date.today()
+        with open('report_XYZ2BLH.txt', 'w') as file:
+            file.write(f'Date of creation of the report with coordinates: {today} \n')
+            file.write('-------------------------------------------------------\n')
+            file.write('{:^10s} {:^12s} {:^14s} {:^18s}\n'.format('Point_number', 'B [°]', 'L [°]', 'H [m]'))
+            file.write('-------------------------------------------------------\n')
+            for x in data_out:
+                file.write('{:^10} {:^15.5f} {:^15.5f} {:^15.3f}\n'.format(x[0], x[1], x[2], x[3]))
+            file.write('-------------------------------------------------------')
+        return (data_out)
+
+
     def BLH2XYZ(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
@@ -66,15 +76,24 @@ class Transformations:
             X = (N + H) * np.cos(B) * np.cos(L)
             Y = (N + H) * np.cos(B) * np.sin(L)
             Z = (N * (1 - e2) + H) * np.sin(B)
+
             data_out.append([Point_number, X, Y, Z])
+
+        today = datetime.date.today()
+        with open('report_BLH2XYZ.txt', 'w') as file:
+            file.write(f'Date of creation of the report with coordinates: {today} \n')
+            file.write('-------------------------------------------------------\n')
+            file.write('{:^10s} {:^15s} {:^15s} {:^15s}\n'.format('Point_number', 'X [m]', 'Y [m]', 'Z [m]'))
+            for x in data_out:
+                file.write('{:^10} {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(x[0], x[1], x[2], x[3]))
+            file.write('-------------------------------------------------------')
         return (data_out)
-    
+
     def XYZ2NEU(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
         data_in = self.file_reading(file_txt)
-        
-        
+
         data_out = []
         for i in data_in:
             Point_number, X_init, Y_init, Z_init, X_final, Y_final, Z_final = i
@@ -94,6 +113,15 @@ class Transformations:
             dXYZ = np.array([[X_final - X_init], [Y_final - Y_init], [Z_final - Z_init]])
             dNEU = R.T @ dXYZ
             data_out.append([Point_number, dNEU[0][0], dNEU[1][0], dNEU[2][0]])
+
+        today = datetime.date.today()
+        with open('report_XYZ2NEU.txt', 'w') as file:
+            file.write(f'Date of creation of the report with coordinates: {today} \n')
+            file.write('-------------------------------------------------------\n')
+            file.write('{:^10s} {:^15s} {:^15s} {:^15s}\n'.format('Point_number', 'northing', 'easting', 'up'))
+            for x in data_out:
+                file.write('{:^10} {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(x[0], x[1], x[2], x[3]))
+            file.write('-------------------------------------------------------')
         return (data_out)
         
     def BL2XY2000(self, file_txt, ellipsoid_name):
@@ -146,7 +174,18 @@ class Transformations:
             Y = Ygk * 0.999923 + n * 1000000 + 500000
 
             data_out.append([Point_number, X, Y])
+            today = datetime.date.today()
+
+            with open('report_BL2XY2000.txt', 'w') as file:
+                file.write(f'Date of creation of the report with coordinates: {today} \n')
+                file.write('-------------------------------------------------------\n')
+                file.write('{:^10s} {:^15s} {:^15s}\n'.format('Point_number', 'X [m]', 'Y [m]'))
+                for x in data_out:
+                     file.write('{:^10} {:^15.3f} {:^15.3f}\n'.format(x[0], x[1], x[2]))
+                file.write('-------------------------------------------------------')
         return (data_out)
+
+
         
        
     def BL2XY1992(self, file_txt, ellipsoid_name):
@@ -184,7 +223,15 @@ class Transformations:
             X = Xgk * 0.9993 - 5300000
             Y = Ygk * 0.9993 + 500000
             data_out.append([Point_number, X, Y])
-            
+
+        today = datetime.date.today()
+        with open('report_BL2XY1992.txt', 'w') as file:
+            file.write(f'Date of creation of the report with coordinates: {today} \n')
+            file.write('-------------------------------------------------------\n')
+            file.write('{:^10s} {:^18s} {:^18s}\n'.format('Point_number', 'X [m]', 'Y [m]'))
+            for x in data_out:
+                file.write('{:^10} {:^15.3f} {:^15.3f}\n'.format(x[0], x[1], x[2]))
+            file.write('-------------------------------------------------------')
         return (data_out)
        
 
