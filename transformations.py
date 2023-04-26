@@ -54,7 +54,7 @@ class Transformations:
     def BLH2XYZ(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
-        data_in = [self.file_reading(file_txt)]
+        data_in = self.file_reading(file_txt)
 
         data_out = []
         for i in data_in:
@@ -99,47 +99,53 @@ class Transformations:
     def BL2XY2000(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
-        data_in = [self.file_reading(file_txt)]
-        
-        B = B * pi / 180
-        L = L * pi / 180
-        l0 = 0
-        n = 0
-        if L > 13.5 * pi / 180 and L < 16.5 * pi / 180:
-            l0 = l0 + (15 * pi / 180)
-            n = n + 5
-        if L > 16.5 * pi / 180 and L < 19.5 * pi / 180:
-            l0 = l0 + (18 * pi / 180)
-            n = n + 6
-        if L > 19.5 * pi / 180 and L < 22.5 * pi / 180:
-            l0 = l0 + (21 * pi / 180)
-            n = n + 7
-        if L > 22.5 * pi / 180 and L < 25.5 * pi / 180:
-            l0 = l0 + (24 * pi / 180)
-            n = n + 8
+        data_in = self.file_reading(file_txt)
 
-        b2 = (a ** 2) * (1 - e2)
-        ep2 = (a ** 2 - b2) / b2
-        dL = L - l0
-        t = np.tan(B)
-        n2 = ep2 * (np.cos(B) ** 2)
-        N = a / np.sqrt(1 - e2 * np.sin(B) ** 2)
+        data_out = []
+        for i in data_in:
+            Point_number, B, L = i
 
-        A0 = 1 - (e2 / 4) - ((3 * e2 ** 2) / 64) - ((5 * e2 ** 3) / 256)
-        A2 = (3 / 8) * (e2 + (e2 ** 2) / 4 + (15 * e2 ** 3) / 128)
-        A4 = (15 / 256) * (e2 ** 2 + (3 * e2 ** 3) / 4)
-        A6 = (35 * e2 ** 3) / 3072
-        sigma = a * ((A0 * B) - (A2 * np.sin(2 * B)) + (A4 * np.sin(4 * B)) - (A6 * np.sin(6 * B)))
+            B = B * pi / 180
+            L = L * pi / 180
+            l0 = 0
+            n = 0
+            if L > 13.5 * pi / 180 and L < 16.5 * pi / 180:
+                l0 = l0 + (15 * pi / 180)
+                n = n + 5
+            if L > 16.5 * pi / 180 and L < 19.5 * pi / 180:
+                l0 = l0 + (18 * pi / 180)
+                n = n + 6
+            if L > 19.5 * pi / 180 and L < 22.5 * pi / 180:
+                l0 = l0 + (21 * pi / 180)
+                n = n + 7
+            if L > 22.5 * pi / 180 and L < 25.5 * pi / 180:
+                l0 = l0 + (24 * pi / 180)
+                n = n + 8
 
-        Xgk = sigma + ((dL ** 2 / 2) * N * np.sin(B) * np.cos(B) * (1 + (((dL ** 2) / 12) * (np.cos(B) ** 2) *
-            (5 - t ** 2 + 9 * n2 + 4 * n2 ** 2)) + (((dL ** 4) / 360) * (np.cos(B) ** 4) * (61 - 58 * (t ** 2) +
-            t ** 4 + 270 * n2 - 330 * n2 * (t ** 2)))))
-        Ygk = dL * N * np.cos(B) * (1 + (((dL ** 2) / 6) * (np.cos(B) ** 2) * (1 - t ** 2 + n2)) +
-                                    (((dL ** 4) / 120) * (np.cos(B) ** 4) * (5 - 18 * t ** 2 + t ** 4 + 14 * n2 -
-                                                                             58 * n2 * t ** 2)))
+            b2 = (a ** 2) * (1 - e2)
+            ep2 = (a ** 2 - b2) / b2
+            dL = L - l0
+            t = np.tan(B)
+            n2 = ep2 * (np.cos(B) ** 2)
+            N = a / np.sqrt(1 - e2 * np.sin(B) ** 2)
 
-        X = Xgk * 0.999923
-        Y = Ygk * 0.999923 + n * 1000000 + 500000
+            A0 = 1 - (e2 / 4) - ((3 * e2 ** 2) / 64) - ((5 * e2 ** 3) / 256)
+            A2 = (3 / 8) * (e2 + (e2 ** 2) / 4 + (15 * e2 ** 3) / 128)
+            A4 = (15 / 256) * (e2 ** 2 + (3 * e2 ** 3) / 4)
+            A6 = (35 * e2 ** 3) / 3072
+            sigma = a * ((A0 * B) - (A2 * np.sin(2 * B)) + (A4 * np.sin(4 * B)) - (A6 * np.sin(6 * B)))
+
+            Xgk = sigma + ((dL ** 2 / 2) * N * np.sin(B) * np.cos(B) * (1 + (((dL ** 2) / 12) * (np.cos(B) ** 2) *
+                (5 - t ** 2 + 9 * n2 + 4 * n2 ** 2)) + (((dL ** 4) / 360) * (np.cos(B) ** 4) * (61 - 58 * (t ** 2) +
+                t ** 4 + 270 * n2 - 330 * n2 * (t ** 2)))))
+            Ygk = dL * N * np.cos(B) * (1 + (((dL ** 2) / 6) * (np.cos(B) ** 2) * (1 - t ** 2 + n2)) +
+                                        (((dL ** 4) / 120) * (np.cos(B) ** 4) * (5 - 18 * t ** 2 + t ** 4 + 14 * n2 -
+                                                                                 58 * n2 * t ** 2)))
+
+            X = Xgk * 0.999923
+            Y = Ygk * 0.999923 + n * 1000000 + 500000
+
+            data_out.append([Point_number, X, Y])
         return (data_out)
         
        
@@ -177,6 +183,8 @@ class Transformations:
 
             X = Xgk * 0.9993 - 5300000
             Y = Ygk * 0.9993 + 500000
+            data_out.append([Point_number, X, Y])
+            
         return (data_out)
        
 
