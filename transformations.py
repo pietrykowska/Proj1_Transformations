@@ -44,7 +44,6 @@ class Transformations:
         l = np.arctan2(Y,X)
         return(f,l,h)
     
-        
     def BLH2XYZ(self, file_text, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
@@ -63,13 +62,24 @@ class Transformations:
 
             data_out.append([Point_number, X, Y, Z])
 
-    #def NEU():
-
+    def NEU():
+        p = np.sqrt(X**2 + Y**2)
+        f = np.arctan(Z / (p*(1 - e2)))
+        N = a / np.sqrt(1 - e2 * np.sin(f)**2)
+        
+        dneu = np.array([s * np.sin(z) * np.cos(alfa),
+                         s * np.sin(z) * np.sin(alfa),
+                         s * cos(z)])
+        
+        
+        R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
+                     [ -np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
+                     [np.cos(f), 0 ,np.sin(f)]])
     #def XY2000():
         
     #def XY1992():    
 
-        
+       
 
 #if __name__ == '__main__':
     
