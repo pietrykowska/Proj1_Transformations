@@ -18,7 +18,7 @@ class Transformations:
                               'e2': 0.00669342162297}}
 
     def file_reading(self, file_txt):
-        with open(file_txt, 'read') as file:
+        with open(file_txt, 'r') as file:
             lines = file.readlines()
             data = []
             for x in lines:
@@ -26,7 +26,7 @@ class Transformations:
                 b = [x[0]]
                 x = [b.append(float(i)) for i in x[1:]]
                 data.append(b)
-        return
+        return (data)
 
     def hirvonen(self): 
         a = self.ellipsoid['a']
