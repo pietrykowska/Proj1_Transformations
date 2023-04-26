@@ -28,21 +28,28 @@ class Transformations:
                 data.append(b)
         return (data)
 
-    def hirvonen(self): 
-        a = self.ellipsoid['a']
-        e2 = self.ellipsoid['e2']
+    def XYZ2BLH(self, ellipsoid_name): 
+        a = self.ellipsoid[ellipsoid_name]['a']
+        e2 = self.ellipsoid[ellipsoid_name]['e2']
         
-        p = np.sqrt(X**2 + Y**2)
-        f = np.arctan(Z / (p*(1 - e2)))
-        while True:
-            N = Np(f,a,e2)
-            h = (p/np.cos(f)) - N
-            fs = f
-            f = np.arctan(Z / (p * (1 - e2 * N / (N + h))))
-            if np.abs(fs - f) < (0.000001/206265):
-                break
-        l = np.arctan2(Y,X)
-        return(f,l,h)
+        data_in = self.file_reading(file_txt)
+        data_out = []
+        for i in data_in:
+            Point_number, X, Y, Z = i
+            p = np.sqrt(X ** 2 + Y ** 2)
+            B = np.arctan(Z / (p * (1 - e2)))
+            while True:
+                N = a / np.sqrt(1 - e2 * np.sin(B) ** 2)
+                H = (p / np.cos(B)) - N
+                Bp = B
+                B = np.arctan((Z / (p * (1 - e2 * (N / (N + H))))))
+                if np.abs(Bp - B) < (0.000001 / 206265):
+                    break
+            L = np.arctan2(Y, X)
+            B = B * 180 / pi
+            L = L * 180 / pi
+            data_out.append([Point_number, B, L, H])
+        return (data_out)    
     
     def BLH2XYZ(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
@@ -119,8 +126,8 @@ class Transformations:
         X = Xgk * 0.999923
         Y = Ygk * 0.999923 + n * 1000000 + 500000
         
-    #def BL2XY1992():
-
+    def BL2XY1992():
+        return()
        
 
 #if __name__ == '__main__':
