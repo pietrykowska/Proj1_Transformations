@@ -14,5 +14,10 @@ if __name__ == '__main__':
                         help='Accepts the ellipsoid model (WGS84/ GRS80/ KRASOWSKI)')
 
     args = parser.parse_args()
-
+    
+    transformations = {'XYZ2BLH': 'XYZ2BLH',
+                       'BLH2XYZ': 'BLH2XYZ',
+                       'XYZ2NEU': 'XYZ2NEU',
+                       'BL2XY2000': 'BL2XY2000',
+                       'BL2XY1992': 'BL2XY1992'}
     end = ""
