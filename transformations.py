@@ -327,3 +327,14 @@ if __name__ == '__main__':
 
     end = ""
     
+    try:
+        while end != "Finish":
+            if args== None:
+                args = input('Transformation name:')
+            if args ==None:
+                args =input('Ellipsoid model: ')
+            if args.dat == None:
+                args.dat = input('Enter the path to the txt file with data: ')    
+
+            sth = Transformations()
+    
