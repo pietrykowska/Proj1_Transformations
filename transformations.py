@@ -67,10 +67,18 @@ class Transformations:
             Y = (N + H) * np.cos(B) * np.sin(L)
             Z = (N * (1 - e2) + H) * np.sin(B)
             data_out.append([Point_number, X, Y, Z])
-
-    def BLH2NEU():
-        p = np.sqrt(X**2 + Y**2)
-        f = np.arctan(Z / (p*(1 - e2)))
+        return (data_out)
+    
+    def XYZ2NEU():
+        a = self.ellipsoid[ellipsoid_name]['a']
+        e2 = self.ellipsoid[ellipsoid_name]['e2']
+        data_in = self.file_reading(file_txt)
+        
+        p = np.sqrt(X_init ** 2 + Y_init ** 2)
+        B = np.arctan(Z_init / (p * (1 - e2)))
+        
+        
+        
         N = a / np.sqrt(1 - e2 * np.sin(f)**2)
         
         dneu = np.array([s * np.sin(z) * np.cos(alfa),
