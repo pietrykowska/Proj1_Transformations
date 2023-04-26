@@ -1,10 +1,18 @@
 from math import *
 import numpy as np
 import datetime
+
+
 class Transformations:
     def __init__(self):
        
-            self.ellipsoid = {
+        """
+        Ellipsoid parameters:
+                a - major axis of the ellipsoid - equatorial radius
+                b - minor axis of the ellipsoid - polar radius
+                e2 - square of the eccentricity.
+        """
+        self.ellipsoid = {
                 'GRS80': {'a': 6378137,
                           'b': 6356752.3141,
                           'e2': 0.00669438002290},
@@ -29,6 +37,20 @@ class Transformations:
         return (data)
 
     def XYZ2BLH(self, file_txt, ellipsoid_name):
+        
+        """
+        Hirvonen's algorithm - an algorithm used to transform Cartesian (rectangular)
+        coordinates X, Y, Z into geodetic coordinates B, L, H.
+
+        INPUT:
+        file_txt : [str] - a string containing the name of the input file with XYZ coordinates
+        ellipsoid_name : [str] - a string containing the name of the ellipsoid to be used
+
+        OUTPUT:
+        data_out : [list] - a list containing the geodetic coordinates (latitude, longitude, height) for each point in
+                            the input file.
+
+        """
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
 
@@ -62,6 +84,18 @@ class Transformations:
 
 
     def BLH2XYZ(self, file_txt, ellipsoid_name):
+        
+        """
+        The following function converts geodetic coordinates (BLH) to cartesian coordinates (XYZ) using the specified
+        ellipsoid.
+
+        INPUT:
+        file_txt : [str] - Path to the input file containing BLH coordinates of points
+        ellipsoid_name:[str]    - Name of the ellipsoid to use for the conversion
+                                  (must be a key in the `ellipsoid` dictionary of the object)
+        OUTPUT:
+        data_out : [list] - List of XYZ coordinates of each point in the input file
+        """
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
         data_in = self.file_reading(file_txt)
@@ -90,6 +124,18 @@ class Transformations:
         return (data_out)
 
     def XYZ2NEU(self, file_txt, ellipsoid_name):
+        
+        """
+        This function transforms XYZ coordinates to NEU coordinates based on a specified ellipsoid.
+
+        INPUTS:
+        file_txt : [str] - a string containing the name of the input file with XYZ coordinates
+        ellipsoid_name : [str] - a string containing the name of the ellipsoid to be used.
+
+        OUTPUTS:
+        data_out : [list] - a list containing the NEU coordinates (northing, easting, upper) for each point in the
+        input file.
+        """
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
         data_in = self.file_reading(file_txt)
@@ -125,6 +171,17 @@ class Transformations:
         return (data_out)
         
     def BL2XY2000(self, file_txt, ellipsoid_name):
+        
+        """
+        This function converts BL (latitude and longitude) coordinates to XY2000 coordinates based on a specified ellipsoid.
+
+        INPUTS:
+        - file_txt : [str] - the name of the input file containing the BL coordinates.
+        - ellipsoid_name : [str] - the name of the ellipsoid to be used.
+
+        OUTPUTS:
+        - data_out : [list] - a list containing the XY2000 coordinates for each point in the input file.
+        """
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
         data_in = self.file_reading(file_txt)
@@ -189,6 +246,17 @@ class Transformations:
         
        
     def BL2XY1992(self, file_txt, ellipsoid_name):
+        
+        """
+        This function converts BL (latitude and longitude) coordinates to XY1992 coordinates based on a specified ellipsoid.
+
+        INPUTS:
+        - file_txt : [str] - the name of the input file containing the BL coordinates.
+        - ellipsoid_name : [str] - the name of the ellipsoid to be used.
+
+        OUTPUTS:
+        - data_out : [list] - a list containing the XY1992 coordinates for each point in the input file.
+        """
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
 
