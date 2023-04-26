@@ -16,7 +16,17 @@ class Transformations:
                 'KRASOWSKI': {'a': 6378245,
                               'b': 6356863.019,
                               'e2': 0.00669342162297}}
-                              
+
+    def file_reading(self, file_txt):
+        with open(file_txt, 'read') as file:
+            lines = file.readlines()
+            data = []
+            for x in lines:
+                x = x.split()
+                b = [x[0]]
+                x = [b.append(float(i)) for i in x[1:]]
+                data.append(b)
+        return
 
     def hirvonen(self): 
         a = self.ellipsoid['a']
@@ -35,9 +45,23 @@ class Transformations:
         return(f,l,h)
     
         
-    def BLH2XYZ(ellipsoid_name):
-        a = self.ellipsoid['a']
-        e2 = self.ellipsoid['e2']
+    def BLH2XYZ(self, file_text, ellipsoid_name):
+        a = self.ellipsoid[ellipsoid_name]['a']
+        e2 = self.ellipsoid[ellipsoid_name]['e2']
+        data_in = []
+
+        data_out = []
+        for i in data_in:
+            Point_number, B, L, H = i
+
+            B = B * np.pi / 180
+            L = L * np.pi / 180
+            N = a / np.sqrt(1 - e2 * np.sin(B) ** 2)
+            X = (N + H) * np.cos(B) * np.cos(L)
+            Y = (N + H) * np.cos(B) * np.sin(L)
+            Z = (N * (1 - e2) + H) * np.sin(B)
+
+            data_out.append([Point_number, X, Y, Z])
 
     #def NEU():
 
