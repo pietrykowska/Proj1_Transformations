@@ -1,6 +1,7 @@
 import argparse
 
 if __name__ == '__main__':
+    
     parser = argparse.ArgumentParser(description='Transformation of coordinates')
 
     parser.add_argument('-dat',
@@ -21,3 +22,13 @@ if __name__ == '__main__':
                        'BL2XY2000': 'BL2XY2000',
                        'BL2XY1992': 'BL2XY1992'}
     end = ""
+    try:
+        while end != "Finish":
+            if args== None:
+                args = input('Transformation name:')
+            if args ==None:
+                args =input('Ellipsoid model: ')
+            if args.dat == None:
+                args.dat = input('Enter the path to the txt file with data: ')    
+                
+            sth = Transformations()
