@@ -329,12 +329,27 @@ if __name__ == '__main__':
     
     try:
         while end != "Finish":
-            if args== None:
-                args = input('Transformation name:')
-            if args ==None:
-                args =input('Ellipsoid model: ')
+            if args.method == None:
+                args.method = input(str('Transformation name: '))
+            if args.ellip == None:
+                args.ellip = input(str('Ellipsoid model: '))
             if args.dat == None:
-                args.dat = input('Enter the path to the txt file with data: ')    
+                args.dat = input(str('Enter the path to the txt file with data: ')) 
 
             sth = Transformations()
+            method = transformations[args.method]
+            if method == 'XYZ2BLH':
+                data_out = sth.XYZ2BLH(args.dat, args.ellip)
+            if method == 'BLH2XYZ':
+                data_out = sth.BLH2XYZ(args.dat, args.ellip)
+            if method == 'XYZ2NEU':
+                data_out = sth.XYZ2NEU(args.dat, args.ellip)
+            if method == 'BL2XY2000':
+                data_out = sth.BL2XY2000(args.dat, args.ellip)
+            if method == 'BL2XY1992':
+                data_out = sth.BL2XY1992(args.dat, args.ellip)
+            
+            args.ellip = None
+            args.dat = None
+            args.method = None    
     
