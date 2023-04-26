@@ -44,10 +44,10 @@ class Transformations:
         l = np.arctan2(Y,X)
         return(f,l,h)
     
-    def BLH2XYZ(self, file_text, ellipsoid_name):
+    def BLH2XYZ(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
-        data_in = []
+        data_in = [self.file_reading(file_txt)]
 
         data_out = []
         for i in data_in:
@@ -62,7 +62,7 @@ class Transformations:
 
             data_out.append([Point_number, X, Y, Z])
 
-    def NEU():
+    def BLH2NEU():
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z / (p*(1 - e2)))
         N = a / np.sqrt(1 - e2 * np.sin(f)**2)
@@ -75,9 +75,51 @@ class Transformations:
         R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
                      [ -np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
                      [np.cos(f), 0 ,np.sin(f)]])
-    #def XY2000():
+    def BL2XY2000():
+        B = B * pi / 180
+        L = L * pi / 180
+        l0 = 0
+        n = 0
+        if L > 13.5 * pi / 180 and L < 16.5 * pi / 180:
+            l0 = l0 + (15 * pi / 180)
+            n = n + 5
+        if L > 16.5 * pi / 180 and L < 19.5 * pi / 180:
+            l0 = l0 + (18 * pi / 180)
+            n = n + 6
+        if L > 19.5 * pi / 180 and L < 22.5 * pi / 180:
+            l0 = l0 + (21 * pi / 180)
+            n = n + 7
+        if L > 22.5 * pi / 180 and L < 25.5 * pi / 180:
+            l0 = l0 + (24 * pi / 180)
+            n = n + 8
+
+        b2 = (a ** 2) * (1 - e2)
+        ep2 = (a ** 2 - b2) / b2
+        dL = L - l0
+        t = np.tan(B)
+        n2 = ep2 * (np.cos(B) ** 2)
+        N = a / np.sqrt(1 - e2 * np.sin(B) ** 2)
+
+        A0 = 1 - (e2 / 4) - ((3 * e2 ** 2) / 64) - ((5 * e2 ** 3) / 256)
+        A2 = (3 / 8) * (e2 + (e2 ** 2) / 4 + (15 * e2 ** 3) / 128)
+        A4 = (15 / 256) * (e2 ** 2 + (3 * e2 ** 3) / 4)
+        A6 = (35 * e2 ** 3) / 3072
+        sigma = a * ((A0 * B) - (A2 * np.sin(2 * B)) + (A4 * np.sin(4 * B)) - (A6 * np.sin(6 * B)))
+
+        Xgk = sigma + ((dL ** 2 / 2) * N * np.sin(B) * np.cos(B) * (1 + (((dL ** 2) / 12) * (np.cos(B) ** 2) *
+                                                                         (5 - t ** 2 + 9 * n2 + 4 * n2 ** 2)) + (
+                                                                                ((dL ** 4) / 360) * (np.cos(B) ** 4) * (
+                                                                                    61 - 58 * (t ** 2) +
+                                                                                    t ** 4 + 270 * n2 - 330 * n2 * (
+                                                                                                t ** 2)))))
+        Ygk = dL * N * np.cos(B) * (1 + (((dL ** 2) / 6) * (np.cos(B) ** 2) * (1 - t ** 2 + n2)) +
+                                    (((dL ** 4) / 120) * (np.cos(B) ** 4) * (
+                                                5 - 18 * t ** 2 + t ** 4 + 14 * n2 - 58 * n2 * t ** 2)))
+
+        X = Xgk * 0.999923
+        Y = Ygk * 0.999923 + n * 1000000 + 500000
         
-    #def XY1992():    
+    #def BL2XY1992():
 
        
 
