@@ -14,4 +14,5 @@ class Transformations:
                               'b': 6356863.019,
                               'e2': (a**2-b**2)/a**2}}
             
-       
+    def hirvonen(): 
+        
