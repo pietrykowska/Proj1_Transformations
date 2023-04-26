@@ -69,7 +69,7 @@ class Transformations:
             data_out.append([Point_number, X, Y, Z])
         return (data_out)
     
-    def XYZ2NEU():
+    def XYZ2NEU(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
         data_in = self.file_reading(file_txt)
@@ -89,7 +89,11 @@ class Transformations:
         R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
                      [ -np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
                      [np.cos(f), 0 ,np.sin(f)]])
-    def BL2XY2000():
+    def BL2XY2000(self, file_txt, ellipsoid_name):
+        a = self.ellipsoid[ellipsoid_name]['a']
+        e2 = self.ellipsoid[ellipsoid_name]['e2']
+        data_in = [self.file_reading(file_txt)]
+        
         B = B * pi / 180
         L = L * pi / 180
         l0 = 0
