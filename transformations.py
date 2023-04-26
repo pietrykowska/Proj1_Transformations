@@ -74,21 +74,28 @@ class Transformations:
         e2 = self.ellipsoid[ellipsoid_name]['e2']
         data_in = self.file_reading(file_txt)
         
-        p = np.sqrt(X_init ** 2 + Y_init ** 2)
-        B = np.arctan(Z_init / (p * (1 - e2)))
         
+        data_out = []
+        for i in data_in:
+            Point_number, X_init, Y_init, Z_init, X_final, Y_final, Z_final = i
+            p = np.sqrt(X_init ** 2 + Y_init ** 2)
+            B = np.arctan(Z_init / (p * (1 - e2)))
+            while True:
+                N = a / np.sqrt(1 - e2 * np.sin(B) ** 2)
+                H = (p / np.cos(B)) - N
+                Bp = B
+                B = np.arctan(Z_init / (p * (1 - e2 * (N / (N + H)))))
+                if np.abs(Bp - B) < (0.000001 / 206265):
+                    break
+            L = np.arctan2(Y_init, X_init)
+            R = np.array([[-np.sin(B) * np.cos(L), -np.sin(L), np.cos(B) * np.cos(L)],
+                          [-np.sin(B) * np.sin(L), np.cos(L), np.cos(B) * np.sin(L)],
+                          [np.cos(B), 0, np.sin(B)]])
+            dXYZ = np.array([[X_final - X_init], [Y_final - Y_init], [Z_final - Z_init]])
+            dNEU = R.T @ dXYZ
+            data_out.append([Point_number, dNEU[0][0], dNEU[1][0], dNEU[2][0]])
+        return (data_out)
         
-        
-        N = a / np.sqrt(1 - e2 * np.sin(f)**2)
-        
-        dneu = np.array([s * np.sin(z) * np.cos(alfa),
-                         s * np.sin(z) * np.sin(alfa),
-                         s * cos(z)])
-        
-        
-        R = np.array([[-np.sin(f) * np.cos(l), -np.sin(l), np.cos(f) * np.cos(l)],
-                     [ -np.sin(f) * np.sin(l), np.cos(l), np.cos(f) * np.sin(l)],
-                     [np.cos(f), 0 ,np.sin(f)]])
     def BL2XY2000(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
@@ -133,7 +140,9 @@ class Transformations:
 
         X = Xgk * 0.999923
         Y = Ygk * 0.999923 + n * 1000000 + 500000
+        return (data_out)
         
+       
     def BL2XY1992(self, file_txt, ellipsoid_name):
         a = self.ellipsoid[ellipsoid_name]['a']
         e2 = self.ellipsoid[ellipsoid_name]['e2']
@@ -168,7 +177,7 @@ class Transformations:
 
             X = Xgk * 0.9993 - 5300000
             Y = Ygk * 0.9993 + 500000
-
+        return (data_out)
        
 
 #if __name__ == '__main__':
