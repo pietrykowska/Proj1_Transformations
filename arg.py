@@ -2,6 +2,9 @@ import argparse
 
 if __name__ == '__main__':
     
+    print('TRANSFORMATION OF COORDINATES' + '\n')
+    print('The script implements the following transformations: XYZ2BLH, BLH2XYZ, XYZ2NEU, BL2XY2000, BL2XY1992\n')
+    
     parser = argparse.ArgumentParser(description='Transformation of coordinates')
 
     parser.add_argument('-dat',
@@ -22,6 +25,7 @@ if __name__ == '__main__':
                        'BL2XY2000': 'BL2XY2000',
                        'BL2XY1992': 'BL2XY1992'}
     end = ""
+    
     try:
         while end != "THE END":
             if args.method == None:
@@ -33,6 +37,7 @@ if __name__ == '__main__':
 
             sth = Transformations()
             method = transformations[args.method]
+            
             if method == 'XYZ2BLH':
                 data_out = sth.XYZ2BLH(args.dat, args.ellip)
             if method == 'BLH2XYZ':
@@ -43,19 +48,25 @@ if __name__ == '__main__':
                 data_out = sth.BL2XY2000(args.dat, args.ellip)
             if method == 'BL2XY1992':
                 data_out = sth.BL2XY1992(args.dat, args.ellip)
-
+            
+            print('The report has been created and saved in the same folder as the code.')
+            
             end = input(str("If you want to close the program, type - THE END, if you want to continue, type anything: ")).upper()
             args.ellip = None
             args.dat = None
             args.method = None
 
     except FileNotFoundError:
+        print(20 * '*')
         print('File not found.')
     except KeyError:
+        print(20 * '*')
         print('Incorrect program parameters.')
     except IndexError:
+        print(20 * '*')
         print('Wrong data format.')
     except ValueError:
+        print(20 * '*')
         print('Wrong data format.')
     finally:
         print(20 * '*')
