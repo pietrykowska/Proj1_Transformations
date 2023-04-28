@@ -372,5 +372,5 @@ if __name__ == '__main__':
         print(20 * '*')
         print('Wrong data format.')
     finally:
-        print(20 * '*')
+        print('THE END ' + 20 * '*')
     
