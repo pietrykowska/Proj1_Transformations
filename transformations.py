@@ -165,7 +165,7 @@ class Transformations:
         with open('report_XYZ2NEU.txt', 'w') as file:
             file.write(f'Date of creation of the report with coordinates: {today} \n')
             file.write('-------------------------------------------------------\n')
-            file.write('{:^10s} {:^15s} {:^15s} {:^15s}\n'.format('Point_number', 'northing', 'easting', 'up'))
+            file.write('{:^10s} {:^15s} {:^15s} {:^15s}\n'.format('Point_number', 'northing', 'easting', 'upper'))
             for x in data_out:
                 file.write('{:^10} {:^15.3f} {:^15.3f} {:^15.3f}\n'.format(x[0], x[1], x[2], x[3]))
             file.write('-------------------------------------------------------')
