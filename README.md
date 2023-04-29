@@ -53,11 +53,11 @@ If the program is to perform additional transformations, click any key on the ke
 
 Console printout:
 ```sh
-Paste the path to the txt file with the data: C:\Users\Patrycja\Documents\studia\!PYTHON\Proj1_Transformations\xyz.txt
 Transformation name: XYZ2BLH
 Ellipsoid model: GRS80
-A report has been created and saved in the folder where the code is located.
-If you want to close the program, type - THE END, if you want to continue, write anything: THE END
+Enter the path to the txt file with data: C:\Users\Patrycja\Documents\studia\!PYTHON\Proj1_Transformations\xyz.txt
+The report has been created and saved in the same folder as the code.
+If you want to close the program, type - THE END, if you want to continue, type anything: THE END
 THE END ******************** 
 ```
 
