@@ -75,6 +75,8 @@ Wrong data format.
 for the XYZ2BLH method will create the file report_XYZ2BLH.txt:
 
 File with input data.
+
+Point_number    X [m]         Y [m]            Z[m]
 ```sh
 1 3588382.360 696708.212 5209346.664 
 2 3860222.175 518788.966 5034121.370 
@@ -99,6 +101,14 @@ Point_number      X [m]           Y [m]           Z [m]
     1        3588382.360     696708.212      5209346.664  
     2        3860222.175     518788.966      5034121.370  
     3        4023193.575     880557.950      4854017.681 
+```
+File with input data for the XYZ2NEU method (Calculations are performed based on the coordinates of the initial and final points of the segment).
+
+Point_number    Xi[m]         Yi[m]         Zi[m]       Xf[m]         Yf[m]            Zf[m]
+```sh
+1 3588382.360 696708.212 5209346.664 3588301.222 696607.908 5209478.416
+2 3860222.175 518788.966 5034121.370 3860207.527 518899.237 5033962.965
+3 4023193.575 880557.950 4854017.681 4023158.879 880424.207 4854154.969
 ```
 for the XYZ2NEU method will create the file report_XYZ2NEU.txt:
 ```sh
