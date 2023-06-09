@@ -137,3 +137,6 @@ Point_number       X [m]              Y [m]
     2        570847.921      -269380.345  
     3        244505.719       22210.752 
 ```
+
+## Known errors:
+Transformation BL_krasowski -> PL2000 and transformation BL_krasowski -> PL1992 give incorrect results of coordinates. There is no direct possibility of such transformation. If a person using this repository can solve this problem, please contact us.
