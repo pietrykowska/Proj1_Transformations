@@ -139,4 +139,4 @@ Point_number       X [m]              Y [m]
 ```
 
 ## Known errors:
-Transformation BL_krasowski -> PL2000 and transformation BL_krasowski -> PL1992 give incorrect results of coordinates. There is no direct possibility of such transformation. If a person using this repository can solve this problem, please contact us.
+All transformations for ellipsoid "KRASOWSKI" give incorrect results of coordinates. There is no direct possibility of such transformation. If a person using this repository can solve this problem, please contact us.
