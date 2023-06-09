@@ -139,4 +139,4 @@ Point_number       X [m]              Y [m]
 ```
 
 ## Known errors:
-All transformations for ellipsoid "KRASOWSKI" give incorrect results of coordinates. There is no direct possibility of such transformation. If a person using this repository can solve this problem, please contact us.
+Used transformations for ellipsoid "KRASOWSKI" give incorrect results of coordinates. There is no direct possibility of such transformation. More informations about that problem is add at report. If a person using this repository can solve this problem, please contact us.
